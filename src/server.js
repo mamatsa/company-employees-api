@@ -1,10 +1,15 @@
 import 'dotenv/config'
 import express from 'express'
+import companyRoutes from './routes/company.js'
+import connectDB from './config/mongo.js'
 
-const app = express()
+connectDB()
 
-app.use((req, res) => {
-  res.status(200).json({ greeting: 'Hello World' })
-})
+const server = express()
 
-app.listen(process.env.PORT)
+server.use(express.json())
+server.use(express.urlencoded({ extended: false }))
+
+server.use('/company', companyRoutes)
+
+server.listen(process.env.PORT)
