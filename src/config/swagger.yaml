@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: NodeJS Project
+  description: Here goes description
+  version: 0.1.0
+
+servers:
+  - url: http://localhost:5000/api
+    description: local server
+
+paths:
+  /company/create:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                websiteAddress:
+                  type: string
+                logoAddress:
+                  type: string
+                establishmentDate:
+                  type: string
+              example:
+                name: redberry
+                websiteAddress: https://redberry.international/
+                logoAddress: https://redberry.international/wp-content/uploads/2022/01/redberrylogo.svg
+                establishmentDate: 2008
+      responses:
+        '200':
+          description: OK
