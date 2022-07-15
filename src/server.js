@@ -11,7 +11,7 @@ const server = express()
 server.use(express.json())
 server.use(express.urlencoded({ extended: false }))
 
-server.use('/company', companyRoutes)
+server.use('/companies', companyRoutes)
 
 server.use('/api', swaggerMiddleware())
 

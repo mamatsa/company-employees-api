@@ -1,8 +1,16 @@
 import express from 'express'
-import { createCompany } from '../controllers/company.js'
+import {
+  createCompany,
+  getCompanyList,
+  getCompany,
+  updateCompany,
+  deleteCompany,
+} from '../controllers/company.js'
 
 const router = express.Router()
 
-router.post('/create', createCompany)
+router.route('/').get(getCompanyList).post(createCompany)
+
+router.route('/:id').get(getCompany).put(updateCompany).delete(deleteCompany)
 
 export default router

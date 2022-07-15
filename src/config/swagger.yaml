@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: NodeJS Project
-  description: Here goes description
+  title: Admin Panel API
+  description: Admin panel API for companies and employees
   version: 0.1.0
 
 servers:
@@ -9,8 +9,39 @@ servers:
     description: local server
 
 paths:
-  /company/create:
+  /companies:
+    get:
+      tags:
+        - Company
+      responses:
+        '200':
+          description: A JSON array of companies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    websiteAddress:
+                      type: string
+                    logoAddress:
+                      type: string
+                    establishmentDate:
+                      type: string
+                  example:
+                    name: Amazon
+                    websiteAddress: https://amazon.com
+                    logoAddress: https://www.amazon.com/ref=nav_logo
+                    establishmentDate: 1994-07-05
+        400:
+          description: Bad request
+
     post:
+      tags:
+        - Company
       requestBody:
         required: true
         content:
@@ -30,7 +61,112 @@ paths:
                 name: redberry
                 websiteAddress: https://redberry.international/
                 logoAddress: https://redberry.international/wp-content/uploads/2022/01/redberrylogo.svg
-                establishmentDate: 2008
+                establishmentDate: '2015-11-22'
+      responses:
+        '201':
+          description: Company created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  name:
+                    type: string
+                  websiteAddress:
+                    type: string
+                  logoAddress:
+                    type: string
+                  establishmentDate:
+                    type: string
+
+  /companies/{id}:
+    get:
+      tags:
+        - Company
       responses:
         '200':
-          description: OK
+          description: Company in JSON format
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    websiteAddress:
+                      type: string
+                    logoAddress:
+                      type: string
+                    establishmentDate:
+                      type: string
+                  example:
+                    name: Amazon
+                    websiteAddress: https://amazon.com
+                    logoAddress: https://www.amazon.com/ref=nav_logo
+                    establishmentDate: 1994-07-05
+    put:
+      tags:
+        - Company
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                websiteAddress:
+                  type: string
+                logoAddress:
+                  type: string
+                establishmentDate:
+                  type: string
+              example:
+                name: Redberry
+                websiteAddress: https://redberry.international/
+                logoAddress: https://redberry.international/wp-content/uploads/2022/01/redberrylogo.svg
+                establishmentDate: '2014-03-20'
+      responses:
+        '200':
+          description: Updated company
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  name:
+                    type: string
+                  websiteAddress:
+                    type: string
+                  logoAddress:
+                    type: string
+                  establishmentDate:
+                    type: string
+    delete:
+      tags:
+        - Company
+      responses:
+        '200':
+          description: Deleted company
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  name:
+                    type: string
+                  websiteAddress:
+                    type: string
+                  logoAddress:
+                    type: string
+                  establishmentDate:
+                    type: string
