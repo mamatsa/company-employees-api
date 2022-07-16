@@ -1,4 +1,4 @@
-import { Company } from '../models/index.js'
+import { Company, Employee } from '../models/index.js'
 
 // @desc     Fetch all companies
 // @route    GET /companies
@@ -32,7 +32,8 @@ export const createCompany = async (req, res) => {
 // @access   Public
 export const getCompany = async (req, res) => {
   const company = await Company.findById(req.params.id)
-  res.status(200).json(company)
+  const companyEmployeesList = await Employee.find({ company: company._id })
+  res.status(200).json({ ...company._doc, employees: companyEmployeesList })
 }
 
 // @desc     Update company
