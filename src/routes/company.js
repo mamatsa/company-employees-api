@@ -5,7 +5,7 @@ import {
   getCompany,
   updateCompany,
   deleteCompany,
-} from '../controllers/company.js'
+} from '../controllers/company-controller.js'
 
 const router = express.Router()
 
