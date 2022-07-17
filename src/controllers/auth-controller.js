@@ -8,21 +8,26 @@ import { User } from '../models/index.js'
 export const login = async (req, res) => {
   const { email, password } = req.body
 
-  // Check for user email
+  // Find user using email
   const user = await User.findOne({ email })
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
-  })
+  if (user) {
+    if (await bcrypt.compare(password, user.password)) {
+      // Generate JWT token
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: '30d',
+      })
 
-  if (user && (await bcrypt.compare(password, user.password))) {
-    res.json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      JWTToken: token,
-    })
+      res.json({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        JWTToken: token,
+      })
+    } else {
+      res.status(400).json({ error: 'wrong password' })
+    }
   } else {
-    res.status(400)
+    res.status(400).json({ error: 'user with such email does not exists' })
   }
 }
