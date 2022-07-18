@@ -2,7 +2,7 @@ import { Company, Employee } from '../models/index.js'
 
 // @desc     Fetch all companies
 // @route    GET /companies
-// @access   Public
+// @access   Private
 export const getCompanyList = async (_, res) => {
   const companies = await Company.find()
   res.status(200).json(companies).send()
@@ -23,7 +23,7 @@ export const createCompany = async (req, res) => {
 
 // @desc     Get a specific company
 // @route    GET /companies/:id
-// @access   Public
+// @access   Private
 export const getCompany = async (req, res) => {
   try {
     const company = await Company.findById(req.params.id)

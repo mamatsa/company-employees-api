@@ -13,12 +13,12 @@ const router = express.Router()
 
 router
   .route('/')
-  .get(getCompanyList)
+  .get(authMiddleware, getCompanyList)
   .post(authMiddleware, validate(companySchemas.createCompany), createCompany)
 
 router
   .route('/:id')
-  .get(getCompany)
+  .get(authMiddleware, getCompany)
   .put(authMiddleware, validate(companySchemas.updateCompany), updateCompany)
   .delete(authMiddleware, deleteCompany)
 
