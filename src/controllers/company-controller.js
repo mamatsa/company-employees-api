@@ -5,12 +5,6 @@ import { Company, Employee } from '../models/index.js'
 // @access   Public
 export const getCompanyList = async (_, res) => {
   const companies = await Company.find()
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Content-Type,Content-Length, Authorization, Accept,X-Requested-With'
-  )
-  res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
   res.status(200).json(companies).send()
 }
 
@@ -31,30 +25,42 @@ export const createCompany = async (req, res) => {
 // @route    GET /companies/:id
 // @access   Public
 export const getCompany = async (req, res) => {
-  const company = await Company.findById(req.params.id)
-  const companyEmployeesList = await Employee.find({ company: company._id })
-  res.status(200).json({ ...company._doc, employees: companyEmployeesList })
+  try {
+    const company = await Company.findById(req.params.id)
+    const companyEmployeesList = await Employee.find({ company: company._id })
+    res.status(200).json({ ...company._doc, employees: companyEmployeesList })
+  } catch (e) {
+    res.status(400).json({ error: 'wrong company id' })
+  }
 }
 
 // @desc     Update company
 // @route    PUT /companies/:id
 // @access   Private
 export const updateCompany = async (req, res) => {
-  const updatedCompany = await Company.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-    }
-  )
-  res.status(200).json(updatedCompany)
+  try {
+    const updatedCompany = await Company.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    )
+    res.status(200).json(updatedCompany)
+  } catch (e) {
+    res.status(400).json({ error: 'wrong company id' })
+  }
 }
 
 // @desc     Delete company
 // @route    DELETE /companies/:id
 // @access   Private
 export const deleteCompany = async (req, res) => {
-  const company = await Company.findById(req.params.id)
-  await company.remove()
-  res.status(200).json({ id: req.params.id })
+  try {
+    const company = await Company.findById(req.params.id)
+    await company.remove()
+    res.status(200).json({ id: req.params.id })
+  } catch (e) {
+    res.status(400).json({ error: 'wrong company id' })
+  }
 }
