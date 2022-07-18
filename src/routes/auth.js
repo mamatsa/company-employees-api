@@ -5,6 +5,6 @@ import authSchema from '../schemas/auth-schema.js'
 
 const router = express.Router()
 
-router.post('/login', validate(authSchema, 'body'), login)
+router.post('/login', validate(authSchema), login)
 
 export default router
