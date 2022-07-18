@@ -4,25 +4,16 @@ import { Employee } from '../models/index.js'
 // @route    POST /employee
 // @access   Private
 export const addEmployee = async (req, res) => {
-  const {
-    company,
-    name,
-    lastName,
-    startDate,
-    birthDate,
-    personalID,
-    jobPosition,
-  } = req.body
   const employee = await Employee.create({
-    company,
-    name,
-    lastName,
-    startDate,
-    birthDate,
-    personalID,
-    jobPosition,
+    company: req.body.company,
+    name: req.body.name,
+    lastName: req.body.lastName,
+    startDate: req.body.startDate,
+    birthDate: req.body.birthDate,
+    personalID: req.body.personalID,
+    jobPosition: req.body.jobPosition,
   })
-  return res.status(200).json(employee)
+  res.status(200).json(employee)
 }
 
 // @desc     Get employee info
@@ -30,8 +21,12 @@ export const addEmployee = async (req, res) => {
 // @access   Private
 export const getEmployee = async (req, res) => {
   const { id } = req.params
-  const employee = await Employee.findById(id)
-  return res.status(200).json(employee)
+  try {
+    const employee = await Employee.findById(id)
+    res.status(200).json(employee)
+  } catch (e) {
+    res.status(400).json({ error: 'wrong employee id' })
+  }
 }
 
 // @desc     Update employee
@@ -39,31 +34,26 @@ export const getEmployee = async (req, res) => {
 // @access   Private
 export const updateEmployee = async (req, res) => {
   const { id } = req.params
-  const {
-    company,
-    name,
-    lastName,
-    startDate,
-    birthDate,
-    personalID,
-    jobPosition,
-  } = req.body
-  const employee = await Employee.findByIdAndUpdate(
-    id,
-    {
-      company,
-      name,
-      lastName,
-      startDate,
-      birthDate,
-      personalID,
-      jobPosition,
-    },
-    {
-      new: true,
-    }
-  )
-  return res.status(200).json(employee)
+  try {
+    const employee = await Employee.findByIdAndUpdate(
+      id,
+      {
+        company: req.body.company,
+        name: req.body.name,
+        lastName: req.body.lastName,
+        startDate: req.body.startDate,
+        birthDate: req.body.birthDate,
+        personalID: req.body.personalID,
+        jobPosition: req.body.jobPosition,
+      },
+      {
+        new: true,
+      }
+    )
+    res.status(200).json(employee)
+  } catch (e) {
+    res.status(400).json({ error: 'wrong employee id' })
+  }
 }
 
 // @desc     Delete employee
@@ -71,6 +61,10 @@ export const updateEmployee = async (req, res) => {
 // @access   Private
 export const deleteEmployee = async (req, res) => {
   const { id } = req.params
-  const employee = await Employee.findByIdAndDelete(id)
-  return res.status(200).json(employee)
+  try {
+    const employee = await Employee.findByIdAndDelete(id)
+    res.status(200).json(employee)
+  } catch (e) {
+    res.status(400).json({ error: 'wrong employee id' })
+  }
 }
