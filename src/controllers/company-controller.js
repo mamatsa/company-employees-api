@@ -18,7 +18,7 @@ export const createCompany = async (req, res) => {
     logoAddress: req.body.logoAddress,
     establishmentDate: new Date(req.body.establishmentDate),
   })
-  res.status(200).json({ company })
+  res.status(201).json({ company })
 }
 
 // @desc     Get a specific company

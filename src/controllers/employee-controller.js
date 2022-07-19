@@ -4,16 +4,20 @@ import { Employee } from '../models/index.js'
 // @route    POST /employee
 // @access   Private
 export const addEmployee = async (req, res) => {
-  const employee = await Employee.create({
-    company: req.body.company,
-    name: req.body.name,
-    lastName: req.body.lastName,
-    startDate: req.body.startDate,
-    birthDate: req.body.birthDate,
-    personalID: req.body.personalID,
-    jobPosition: req.body.jobPosition,
-  })
-  res.status(200).json(employee)
+  try {
+    const employee = await Employee.create({
+      company: req.body.company,
+      name: req.body.name,
+      lastName: req.body.lastName,
+      startDate: req.body.startDate,
+      birthDate: req.body.birthDate,
+      personalID: req.body.personalID,
+      jobPosition: req.body.jobPosition,
+    })
+    res.status(201).json(employee)
+  } catch (e) {
+    res.status(400).json({ error: 'wrong company id' })
+  }
 }
 
 // @desc     Get employee info
