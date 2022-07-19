@@ -33,12 +33,16 @@ paths:
               example:
                 email: example@redberry.ge
                 password: '12345'
+              required:
+                - email
+                - password
       responses:
         '200':
           description: Successfully logged in
         '400':
           description: Wrong password or email
-
+        '422':
+          description: Invalid request body formation
   /companies:
     get:
       tags:
@@ -47,7 +51,7 @@ paths:
         - bearerAuth: []
       responses:
         '200':
-          description: A JSON array of companies
+          description: Company list fetched
           content:
             application/json:
               schema:
@@ -55,6 +59,8 @@ paths:
                 items:
                   type: object
                   properties:
+                    _id:
+                      type: string
                     name:
                       type: string
                     websiteAddress:
@@ -64,10 +70,16 @@ paths:
                     establishmentDate:
                       type: string
                   example:
+                    _id: 111111111
                     name: Amazon
                     websiteAddress: https://amazon.com
                     logoAddress: https://www.amazon.com/ref=nav_logo
                     establishmentDate: 1994-07-05
+                  required:
+                    - name
+                    - websiteAddress
+                    - logoAddress
+                    - establishmentDate
         '401':
           description: Not authorized
     post:
@@ -115,7 +127,10 @@ paths:
                     type: string
         '401':
           description: Not authorized
-
+        '400':
+          description: Wrong company id
+        '422':
+          description: Invalid request body formation
   /companies/{id}:
     get:
       tags:
@@ -131,7 +146,7 @@ paths:
         - bearerAuth: []
       responses:
         '200':
-          description: Company in JSON format
+          description: Specific company fetched
           content:
             application/json:
               schema:
@@ -205,7 +220,7 @@ paths:
                 establishmentDate: 1994-07-05
       responses:
         '200':
-          description: Updated company
+          description: Company updated
           content:
             application/json:
               schema:
@@ -225,6 +240,8 @@ paths:
           description: Not authorized
         '400':
           description: Wrong company id
+        '422':
+          description: Invalid request body formation
     delete:
       tags:
         - Company
@@ -239,7 +256,7 @@ paths:
         - bearerAuth: []
       responses:
         '200':
-          description: Deleted company
+          description: Company deleted
           content:
             application/json:
               schema:
@@ -286,6 +303,14 @@ paths:
                 birthDate: 1964-01-12
                 personalID: '1223334444'
                 jobPosition: CEO
+              required:
+                - company
+                - name
+                - lastName
+                - startDate
+                - birthDate
+                - personalID
+                - jobPosition
       responses:
         '201':
           description: Employee added
@@ -306,8 +331,12 @@ paths:
                     type: string
                   jobPosition:
                     type: string
+        '400':
+          description: Wrong company id in body
         '401':
           description: Not authorized
+        '422':
+          description: Invalid request body formation
   /employee/{id}:
     get:
       tags:
@@ -323,7 +352,7 @@ paths:
         - bearerAuth: []
       responses:
         '200':
-          description: Specific employee
+          description: Specific employee fetched
           content:
             application/json:
               schema:
@@ -389,7 +418,6 @@ paths:
                 jobPosition:
                   type: string
               example:
-                company: '123456789'
                 name: Jeff
                 lastName: Bezos
                 startDate: 1994-07-05
@@ -398,7 +426,7 @@ paths:
                 jobPosition: CEO
       responses:
         '201':
-          description: Employee added
+          description: Employee updated
           content:
             application/json:
               schema:
@@ -420,6 +448,8 @@ paths:
           description: Not authorized
         '400':
           description: Wrong employee id
+        '422':
+          description: Invalid request body formation
     delete:
       tags:
         - Employee
@@ -434,7 +464,7 @@ paths:
         - bearerAuth: []
       responses:
         '200':
-          description: Specific employee
+          description: Employee deleted
           content:
             application/json:
               schema:
