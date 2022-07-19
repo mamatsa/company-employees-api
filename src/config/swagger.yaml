@@ -2,17 +2,49 @@ openapi: 3.0.0
 info:
   title: Admin Panel API
   description: Admin panel API for companies and employees
-  version: 0.1.0
+  version: 1.0.0
 
 servers:
-  - url: http://localhost:5000/api
+  - url: http://localhost:3000/
     description: local server
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
 paths:
+  /login:
+    post:
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              example:
+                email: example@redberry.ge
+                password: '12345'
+      responses:
+        '200':
+          description: Successfully logged in
+        '400':
+          description: Wrong password or email
+
   /companies:
     get:
       tags:
         - Company
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: A JSON array of companies
@@ -36,12 +68,13 @@ paths:
                     websiteAddress: https://amazon.com
                     logoAddress: https://www.amazon.com/ref=nav_logo
                     establishmentDate: 1994-07-05
-        400:
-          description: Bad request
-
+        '401':
+          description: Not authorized
     post:
       tags:
         - Company
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -58,10 +91,10 @@ paths:
                 establishmentDate:
                   type: string
               example:
-                name: redberry
-                websiteAddress: https://redberry.international/
-                logoAddress: https://redberry.international/wp-content/uploads/2022/01/redberrylogo.svg
-                establishmentDate: '2015-11-22'
+                name: Amazon
+                websiteAddress: https://amazon.com
+                logoAddress: https://www.amazon.com/ref=nav_logo
+                establishmentDate: 1995-07-05
       responses:
         '201':
           description: Company created
@@ -80,37 +113,74 @@ paths:
                     type: string
                   establishmentDate:
                     type: string
+        '401':
+          description: Not authorized
 
   /companies/{id}:
     get:
       tags:
         - Company
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Company ID
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Company in JSON format
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    websiteAddress:
-                      type: string
-                    logoAddress:
-                      type: string
-                    establishmentDate:
-                      type: string
-                  example:
-                    name: Amazon
-                    websiteAddress: https://amazon.com
-                    logoAddress: https://www.amazon.com/ref=nav_logo
-                    establishmentDate: 1994-07-05
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  name:
+                    type: string
+                  websiteAddress:
+                    type: string
+                  logoAddress:
+                    type: string
+                  establishmentDate:
+                    type: string
+                  employees:
+                    type: array
+                example:
+                  _id: '111111111'
+                  name: Amazon
+                  websiteAddress: https://amazon.com
+                  logoAddress: https://www.amazon.com/ref=nav_logo
+                  establishmentDate: 1995-07-05
+                  employees:
+                    - _id: '1111111111'
+                      company: '123456789'
+                      name: Jeff
+                      lastName: Bezos
+                      startDate: 1994-07-05
+                      birthDate: 1964-01-12
+                      personalID: '1223334444'
+                      jobPosition: CEO
+
+        '401':
+          description: Not authorized
+        '400':
+          description: Wrong company id
     put:
       tags:
         - Company
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Company ID
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -118,6 +188,8 @@ paths:
             schema:
               type: object
               properties:
+                _id:
+                  type: string
                 name:
                   type: string
                 websiteAddress:
@@ -127,10 +199,10 @@ paths:
                 establishmentDate:
                   type: string
               example:
-                name: Redberry
-                websiteAddress: https://redberry.international/
-                logoAddress: https://redberry.international/wp-content/uploads/2022/01/redberrylogo.svg
-                establishmentDate: '2014-03-20'
+                name: Amazon
+                websiteAddress: https://amazon.com
+                logoAddress: https://www.amazon.com/ref=nav_logo
+                establishmentDate: 1994-07-05
       responses:
         '200':
           description: Updated company
@@ -149,9 +221,22 @@ paths:
                     type: string
                   establishmentDate:
                     type: string
+        '401':
+          description: Not authorized
+        '400':
+          description: Wrong company id
     delete:
       tags:
         - Company
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Company ID
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Deleted company
@@ -160,13 +245,205 @@ paths:
               schema:
                 type: object
                 properties:
-                  _id:
+                  id:
+                    type: string
+        '401':
+          description: Not authorized
+        '400':
+          description: Wrong company id
+  /employee:
+    post:
+      tags:
+        - Employee
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company:
+                  type: string
+                name:
+                  type: string
+                lastName:
+                  type: string
+                startDate:
+                  type: string
+                birthDate:
+                  type: string
+                personalID:
+                  type: string
+                jobPosition:
+                  type: string
+              example:
+                company: '123456789'
+                name: Jeff
+                lastName: Bezos
+                startDate: 1994-07-05
+                birthDate: 1964-01-12
+                personalID: '1223334444'
+                jobPosition: CEO
+      responses:
+        '201':
+          description: Employee added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  lastName:
+                    type: string
+                  startDate:
+                    type: string
+                  birthDate:
+                    type: string
+                  personalID:
+                    type: string
+                  jobPosition:
+                    type: string
+        '401':
+          description: Not authorized
+  /employee/{id}:
+    get:
+      tags:
+        - Employee
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Employee ID
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Specific employee
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company:
                     type: string
                   name:
                     type: string
-                  websiteAddress:
+                  lastName:
                     type: string
-                  logoAddress:
+                  startDate:
                     type: string
-                  establishmentDate:
+                  birthDate:
                     type: string
+                  personalID:
+                    type: string
+                  jobPosition:
+                    type: string
+                example:
+                  company: '123456789'
+                  name: Jeff
+                  lastName: Bezos
+                  startDate: 1994-07-05
+                  birthDate: 1964-01-12
+                  personalID: '1223334444'
+                  jobPosition: CEO
+        '401':
+          description: Not authorized
+        '400':
+          description: Wrong employee id
+    put:
+      tags:
+        - Employee
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Employee ID
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company:
+                  type: string
+                name:
+                  type: string
+                lastName:
+                  type: string
+                startDate:
+                  type: string
+                birthDate:
+                  type: string
+                personalID:
+                  type: string
+                jobPosition:
+                  type: string
+              example:
+                company: '123456789'
+                name: Jeff
+                lastName: Bezos
+                startDate: 1994-07-05
+                birthDate: 1964-01-12
+                personalID: '1223334444'
+                jobPosition: CEO
+      responses:
+        '201':
+          description: Employee added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  lastName:
+                    type: string
+                  startDate:
+                    type: string
+                  birthDate:
+                    type: string
+                  personalID:
+                    type: string
+                  jobPosition:
+                    type: string
+        '401':
+          description: Not authorized
+        '400':
+          description: Wrong employee id
+    delete:
+      tags:
+        - Employee
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Employee ID
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Specific employee
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+
+        '401':
+          description: Not authorized
+        '400':
+          description: Wrong employee id
