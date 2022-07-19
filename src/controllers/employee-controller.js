@@ -62,8 +62,8 @@ export const updateEmployee = async (req, res) => {
 export const deleteEmployee = async (req, res) => {
   const { id } = req.params
   try {
-    const employee = await Employee.findByIdAndDelete(id)
-    res.status(200).json(employee)
+    await Employee.findByIdAndDelete(id)
+    res.status(200).json({ id })
   } catch (e) {
     res.status(400).json({ error: 'wrong employee id' })
   }
