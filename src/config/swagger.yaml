@@ -5,6 +5,8 @@ info:
   version: 1.0.0
 
 servers:
+  - url: https://employee-companies-api.otar.redberryinternship.ge
+    description: production server
   - url: http://localhost:3000/
     description: local server
 components:
