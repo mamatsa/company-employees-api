@@ -59,6 +59,7 @@ export const deleteCompany = async (req, res) => {
   try {
     const company = await Company.findById(req.params.id)
     await company.remove()
+    await Employee.deleteMany({ company: req.params.id })
     res.status(200).json({ id: req.params.id })
   } catch (e) {
     res.status(400).json({ error: 'wrong company id' })
