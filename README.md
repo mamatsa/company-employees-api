@@ -16,19 +16,19 @@ API for companies and its employees
 ### Prerequisites
 
 - <img src="./readme/assets/node.svg" height="17" style="position: relative; top: 2px"/> _Node JS @12.X and up_
-- <img src="./readme/assets/npm.png" height="16" style="position: relative; top: 4px"> _npm @6 and up_
-- <img src="./readme/assets/mongodb.png" height="17" style="position: relative; top: 4px"> _Mongodb database locally or on atlas_
+- <img src="./readme/assets/npm.png" height="16" style="position: relative; top: 5px"> _npm @6 and up_
+- <img src="./readme/assets/mongodb.png" height="17" style="position: relative; top: 5px"> _Mongodb database locally or on atlas_
 
 #
 
 ### Tech Stack
 
-- <img src="readme/assets/express.png" height="20" style="position: relative; top: 4px" /> [express @4.18.1](https://expressjs.com/) - Web framework for Node.js
-- <img src="readme/assets/mongoose.png" height="20" style="position: relative; top: 4px; margin-right: 5px" /> [mongoose @6.4.6](https://mongoosejs.com/) - Mongodb object modeling for Node.js
-- <img src="readme/assets/dotenv.png" height="20" style="position: relative; top: 4px; margin-right: 5px" /> [dotenv @16.0.1](https://www.npmjs.com/package/dotenv) - Environment variable management tool
-- <img src="readme/assets/jwt.svg" height="20" style="position: relative; top: 4px; margin-right: 5px" /> [jsonwebtoken @8.5.1](https://jwt.io/) - JSON Web Token
-- <img src="readme/assets/swagger.png" height="20" style="position: relative; top: 4px; margin-right: 5px" /> [swagger-ui-express @4.5.0](https://swagger.io/) - API description tool
-- <img src="readme/assets/joi.png" height="20" style="position: relative; top: 4px; margin-right: 5px" /> [joi @17.6.0](https://joi.dev/) - Data validator for JavaScript
+- <img src="readme/assets/express.png" height="20" style="position: relative; top: 6px" /> [express @4.18.1](https://expressjs.com/) - Web framework for Node.js
+- <img src="readme/assets/mongoose.png" height="20" style="position: relative; top: 6px; margin-right: 5px" /> [mongoose @6.4.6](https://mongoosejs.com/) - Mongodb object modeling for Node.js
+- <img src="readme/assets/dotenv.png" height="20" style="position: relative; top: 6px; margin-right: 5px" /> [dotenv @16.0.1](https://www.npmjs.com/package/dotenv) - Environment variable management tool
+- <img src="readme/assets/jwt.svg" height="20" style="position: relative; top: 6px; margin-right: 5px" /> [jsonwebtoken @8.5.1](https://jwt.io/) - JSON Web Token
+- <img src="readme/assets/swagger.png" height="20" style="position: relative; top: 6px; margin-right: 5px" /> [swagger-ui-express @4.5.0](https://swagger.io/) - API description tool
+- <img src="readme/assets/joi.png" height="20" style="position: relative; top: 6px; margin-right: 5px" /> [joi @17.6.0](https://joi.dev/) - Data validator for JavaScript
 
 #
 
