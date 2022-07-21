@@ -2,7 +2,7 @@
 
 API for companies and its employees
 
-## Table of Contents
+### Table of Contents
 
 - [Prerequisites](#prerequisites)
 - [Tech Stack](#tech-stack)
@@ -13,7 +13,7 @@ API for companies and its employees
 
 #
 
-## Prerequisites
+### Prerequisites
 
 - <img src="./readme/assets/node.svg" height="17" style="position: relative; top: 2px"/> _Node JS @12.X and up_
 - <img src="./readme/assets/npm.png" height="16" style="position: relative; top: 4px"> _npm @6 and up_
@@ -21,7 +21,7 @@ API for companies and its employees
 
 #
 
-## Tech Stack
+### Tech Stack
 
 - <img src="readme/assets/express.png" height="20" style="position: relative; top: 4px" /> [express @4.18.1](https://expressjs.com/) - Web framework for Node.js
 - <img src="readme/assets/mongoose.png" height="20" style="position: relative; top: 4px; margin-right: 5px" /> [mongoose @6.4.6](https://mongoosejs.com/) - Mongodb object modeling for Node.js
@@ -32,7 +32,7 @@ API for companies and its employees
 
 #
 
-## Getting started
+### Getting started
 
 **To get the Node server running locally you need to follow the steps below:**
 
@@ -74,7 +74,7 @@ yarn run start
 
 #
 
-## Project Structure
+### Project Structure
 
 ```bash
 ├─── src/
@@ -96,12 +96,12 @@ yarn run start
 
 #
 
-## Deployment
+### Deployment
 
 **API is deployed on digitalocean linux server with `ngnix`. You can view its detailed documentation [here](https://employee-companies-api.otar.redberryinternship.ge/api-docs/)**
 
 #
 
-## Authentication
+### Authentication
 
 Requests are authenticated using the Authorization header with a valid JWT. JWT token is given to a user after successful login. Users can only be added from production server by running command: `npm run create:user` and providing new user data.
