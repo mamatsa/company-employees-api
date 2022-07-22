@@ -12,13 +12,16 @@ export const getCompanyList = async (_, res) => {
 // @route    POST /companies
 // @access   Private
 export const createCompany = async (req, res) => {
+  if (await Company.findOne({ name: req.body.name })) {
+    return res.status(201).json({ error: 'company name should be unique' })
+  }
   const company = await Company.create({
     name: req.body.name,
     websiteAddress: req.body.websiteAddress,
     logoAddress: req.body.logoAddress,
     establishmentDate: new Date(req.body.establishmentDate),
   })
-  res.status(201).json({ company })
+  return res.status(201).json({ company })
 }
 
 // @desc     Get a specific company
