@@ -9,11 +9,17 @@ const prompt = promptSync({ sigint: true })
 
 const name = prompt('Enter User name: '.cyan)
 const email = prompt('Enter User email: '.cyan)
-const password = prompt('Enter User password: '.cyan)
+const password = prompt('Enter User password: '.cyan, { echo: '*' })
 
 ;(async () => {
   try {
     const mongoose = await connectDB()
+
+    if (await User.findOne({ email })) {
+      console.log('Email is already taken. Try again.'.red)
+      await mongoose.connection.close()
+      return
+    }
 
     // Hash password
     const salt = await bcrypt.genSalt(10)
@@ -25,9 +31,8 @@ const password = prompt('Enter User password: '.cyan)
     await mongoose.connection.close()
 
     console.log(
-      `User created. Name: ${colors.green(name)}, Email: ${colors.green(
-        email
-      )}, Password: ${colors.green(password)}`.italic
+      `User created. Name: ${colors.green(name)}, Email: ${colors.green(email)}`
+        .italic
     )
   } catch (e) {
     console.log(e)
