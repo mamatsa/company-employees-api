@@ -5,6 +5,11 @@ import { Employee } from '../models/index.js'
 // @access   Private
 export const addEmployee = async (req, res) => {
   try {
+    if (await Employee.findOne({ personalID: req.body.personalID })) {
+      return res
+        .status(422)
+        .json({ error: 'employee with such personal id already exists' })
+    }
     const employee = await Employee.create({
       company: req.body.company,
       name: req.body.name,
@@ -14,9 +19,9 @@ export const addEmployee = async (req, res) => {
       personalID: req.body.personalID,
       jobPosition: req.body.jobPosition,
     })
-    res.status(201).json(employee)
+    return res.status(201).json(employee)
   } catch (e) {
-    res.status(400).json({ error: 'wrong company id' })
+    return res.status(400).json({ error: 'wrong company id' })
   }
 }
 
