@@ -13,7 +13,7 @@ export const getCompanyList = async (_, res) => {
 // @access   Private
 export const createCompany = async (req, res) => {
   if (await Company.findOne({ name: req.body.name })) {
-    return res.status(201).json({ error: 'company name should be unique' })
+    return res.status(422).json({ error: 'company name should be unique' })
   }
   const company = await Company.create({
     name: req.body.name,
