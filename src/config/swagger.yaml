@@ -47,6 +47,7 @@ paths:
           description: Invalid request body formation
   /companies:
     get:
+      summary: Get all companies
       tags:
         - Company
       security:
@@ -85,6 +86,7 @@ paths:
         '401':
           description: Not authorized
     post:
+      summary: Create company
       tags:
         - Company
       security:
@@ -135,6 +137,7 @@ paths:
           description: Invalid request body formation
   /company/{id}:
     get:
+      summary: Get company by id
       tags:
         - Company
       parameters:
@@ -187,6 +190,7 @@ paths:
         '400':
           description: Wrong company id
     put:
+      summary: Update company by id
       tags:
         - Company
       parameters:
@@ -245,6 +249,7 @@ paths:
         '422':
           description: Invalid request body formation
     delete:
+      summary: Delete company by id
       tags:
         - Company
       parameters:
@@ -272,6 +277,7 @@ paths:
           description: Wrong company id
   /employee:
     post:
+      summary: Add employee
       tags:
         - Employee
       security:
@@ -341,6 +347,7 @@ paths:
           description: Invalid request body formation
   /employee/{id}:
     get:
+      summary: Get employee by id
       tags:
         - Employee
       parameters:
@@ -387,6 +394,7 @@ paths:
         '400':
           description: Wrong employee id
     put:
+      summary: Update employee by id
       tags:
         - Employee
       parameters:
@@ -453,6 +461,7 @@ paths:
         '422':
           description: Invalid request body formation
     delete:
+      summary: Delete employee by id
       tags:
         - Employee
       parameters:
