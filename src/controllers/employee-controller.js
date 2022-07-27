@@ -18,7 +18,7 @@ export const addEmployee = async (req, res) => {
       birthDate: req.body.birthDate,
       personalID: req.body.personalID,
       jobPosition: req.body.jobPosition,
-    })
+    }).select('-__v')
     return res.status(201).json(employee)
   } catch (e) {
     return res.status(400).json({ error: 'wrong company id' })
@@ -31,7 +31,7 @@ export const addEmployee = async (req, res) => {
 export const getEmployee = async (req, res) => {
   const { id } = req.params
   try {
-    const employee = await Employee.findById(id)
+    const employee = await Employee.findById(id).select('-__v')
     res.status(200).json(employee)
   } catch (e) {
     res.status(400).json({ error: 'wrong employee id' })
@@ -58,7 +58,7 @@ export const updateEmployee = async (req, res) => {
       {
         new: true,
       }
-    )
+    ).select('-__v')
     res.status(200).json(employee)
   } catch (e) {
     res.status(400).json({ error: 'wrong employee id' })

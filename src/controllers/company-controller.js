@@ -4,8 +4,8 @@ import { Company, Employee } from '../models/index.js'
 // @route    GET /companies
 // @access   Private
 export const getCompanyList = async (_, res) => {
-  const companies = await Company.find()
-  res.status(200).json(companies).send()
+  const companies = await Company.find().select('-__v')
+  res.status(200).json(companies)
 }
 
 // @desc     Add a company
@@ -20,7 +20,7 @@ export const createCompany = async (req, res) => {
     websiteAddress: req.body.websiteAddress,
     logoAddress: req.body.logoAddress,
     establishmentDate: new Date(req.body.establishmentDate),
-  })
+  }).select('-__v')
   return res.status(201).json({ company })
 }
 
@@ -30,7 +30,9 @@ export const createCompany = async (req, res) => {
 export const getCompany = async (req, res) => {
   try {
     const company = await Company.findById(req.params.id)
-    const companyEmployeesList = await Employee.find({ company: company._id })
+    const companyEmployeesList = await Employee.find({
+      company: company._id,
+    }).select('-__v')
     res.status(200).json({ ...company._doc, employees: companyEmployeesList })
   } catch (e) {
     res.status(400).json({ error: 'wrong company id' })
@@ -48,7 +50,7 @@ export const updateCompany = async (req, res) => {
       {
         new: true,
       }
-    )
+    ).select('-__v')
     res.status(200).json(updatedCompany)
   } catch (e) {
     res.status(400).json({ error: 'wrong company id' })
