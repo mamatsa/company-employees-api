@@ -76,16 +76,30 @@ yarn run start
 
 ### Project Structure
 
+Take into account that `index.js` files are used to export other files from folders and example files in given structure, describe file naming pattern in each folder.
+
 ```bash
 ├─── src/
-│   ├─── bin/          # scripts for command line
-│   ├─── config/       # configuration files
+│   ├─── bin/  # scripts for command line
+│   ├─── config/  # configuration files
+│       ├─── example.js
+│       ├─── index.js
 │   ├─── controllers/  # controller functions
+│       ├─── example-controller.js
+│       ├─── index.js
 │   ├─── middlewares/  # middleware functions
-│   ├─── models/       # mongoose collection models
-│   ├─── routes/       # route definitions for api
-│   ├─── schemas/      # joi validation schemas
-│   ├─── server.js     # entry point to application
+│       ├─── example-middleware.js
+│       ├─── index.js
+│   ├─── models/   # mongoose collection models
+│       ├─── Example.js
+│       ├─── index.js
+│   ├─── routes/   # route definitions for api
+│       ├─── example.js
+│       ├─── index.js
+│   ├─── schemas/  # joi validation schemas
+│       ├─── example-schema.js
+│       ├─── index.js
+│   ├─── server.js   # entry point to application
 ├─── readme/         # readme assets
 ├─── .env.example    # environment variables example
 ├─── .eslintrc.json  # eslint config file
