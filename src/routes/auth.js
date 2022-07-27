@@ -1,7 +1,7 @@
 import express from 'express'
-import { login } from '../controllers/auth-controller.js'
+import { login } from '../controllers/index.js'
 import { validate } from '../middlewares/index.js'
-import authSchema from '../schemas/auth-schema.js'
+import { authSchema } from '../schemas/index.js'
 
 const router = express.Router()
 

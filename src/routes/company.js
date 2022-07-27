@@ -5,9 +5,9 @@ import {
   getCompany,
   updateCompany,
   deleteCompany,
-} from '../controllers/company-controller.js'
+} from '../controllers/index.js'
 import { authMiddleware, validate } from '../middlewares/index.js'
-import companySchemas from '../schemas/company-schema.js'
+import { companySchemas } from '../schemas/index.js'
 
 const router = express.Router()
 

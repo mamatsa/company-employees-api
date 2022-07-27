@@ -4,9 +4,9 @@ import {
   getEmployee,
   updateEmployee,
   deleteEmployee,
-} from '../controllers/employee-controller.js'
+} from '../controllers/index.js'
 import { authMiddleware, validate } from '../middlewares/index.js'
-import employeeSchemas from '../schemas/employee-schema.js'
+import { employeeSchemas } from '../schemas/index.js'
 
 const router = express.Router()
 

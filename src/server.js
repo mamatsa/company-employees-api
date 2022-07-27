@@ -2,10 +2,8 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import { swaggerMiddleware } from './middlewares/index.js'
-import authRoutes from './routes/auth.js'
-import companyRoutes from './routes/company.js'
-import employeeRoutes from './routes/employee.js'
-import connectDB from './config/mongo.js'
+import { authRoutes, companyRoutes, employeeRoutes } from './routes/index.js'
+import { connectDB } from './config/index.js'
 
 connectDB()
 
