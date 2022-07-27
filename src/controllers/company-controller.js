@@ -51,6 +51,9 @@ export const updateCompany = async (req, res) => {
         new: true,
       }
     ).select('-__v')
+    if (!updatedCompany) {
+      throw new Error()
+    }
     res.status(200).json(updatedCompany)
   } catch (e) {
     res.status(400).json({ error: 'wrong company id' })

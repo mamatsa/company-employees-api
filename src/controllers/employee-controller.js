@@ -32,6 +32,9 @@ export const getEmployee = async (req, res) => {
   const { id } = req.params
   try {
     const employee = await Employee.findById(id).select('-__v')
+    if (!employee) {
+      throw new Error()
+    }
     res.status(200).json(employee)
   } catch (e) {
     res.status(400).json({ error: 'wrong employee id' })
@@ -44,7 +47,7 @@ export const getEmployee = async (req, res) => {
 export const updateEmployee = async (req, res) => {
   const { id } = req.params
   try {
-    const employee = await Employee.findByIdAndUpdate(
+    const updatedEmployee = await Employee.findByIdAndUpdate(
       id,
       {
         company: req.body.company,
@@ -59,7 +62,10 @@ export const updateEmployee = async (req, res) => {
         new: true,
       }
     ).select('-__v')
-    res.status(200).json(employee)
+    if (!updatedEmployee) {
+      throw new Error()
+    }
+    res.status(200).json(updatedEmployee)
   } catch (e) {
     res.status(400).json({ error: 'wrong employee id' })
   }
@@ -71,7 +77,10 @@ export const updateEmployee = async (req, res) => {
 export const deleteEmployee = async (req, res) => {
   const { id } = req.params
   try {
-    await Employee.findByIdAndDelete(id)
+    const deletedEmployee = await Employee.findByIdAndDelete(id)
+    if (!deletedEmployee) {
+      throw new Error()
+    }
     res.status(200).json({ id })
   } catch (e) {
     res.status(400).json({ error: 'wrong employee id' })
