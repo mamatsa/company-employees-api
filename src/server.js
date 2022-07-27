@@ -14,7 +14,7 @@ server.use(express.json())
 server.use(express.urlencoded({ extended: false }))
 
 server.use('/', authRoutes)
-server.use('/companies', companyRoutes)
+server.use('/', companyRoutes)
 server.use('/employee', employeeRoutes)
 
 server.use('/api-docs', swaggerMiddleware())

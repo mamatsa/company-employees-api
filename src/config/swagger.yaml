@@ -133,7 +133,7 @@ paths:
           description: Wrong company id
         '422':
           description: Invalid request body formation
-  /companies/{id}:
+  /company/{id}:
     get:
       tags:
         - Company

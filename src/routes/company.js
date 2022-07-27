@@ -12,12 +12,12 @@ import { companySchemas } from '../schemas/index.js'
 const router = express.Router()
 
 router
-  .route('/')
+  .route('/companies')
   .get(authMiddleware, getCompanyList)
   .post(authMiddleware, validate(companySchemas.createCompany), createCompany)
 
 router
-  .route('/:id')
+  .route('/company/:id')
   .get(authMiddleware, getCompany)
   .put(authMiddleware, validate(companySchemas.updateCompany), updateCompany)
   .delete(authMiddleware, deleteCompany)
