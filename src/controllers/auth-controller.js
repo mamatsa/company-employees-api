@@ -25,9 +25,9 @@ export const login = async (req, res) => {
         JWTToken: token,
       })
     } else {
-      res.status(400).json({ error: 'wrong password' })
+      res.status(400).json({ error: 'wrong email or password' })
     }
   } else {
-    res.status(400).json({ error: 'user with such email does not exists' })
+    res.status(400).json({ error: 'wrong email or password' })
   }
 }
