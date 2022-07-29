@@ -5,7 +5,7 @@ import { Company, Employee } from '../models/index.js'
 // @access   Private
 export const getCompanyList = async (_, res) => {
   try {
-    const companies = await Company.find().select('-__vd')
+    const companies = await Company.find()
     res.status(200).json(companies)
   } catch (e) {
     res.status(500).json({ error: e.message })
@@ -47,7 +47,7 @@ export const getCompany = async (req, res) => {
     }
     const companyEmployeesList = await Employee.find({
       company: company._id,
-    }).select('-__v')
+    })
     res.status(200).json({ ...company._doc, employees: companyEmployeesList })
   } catch (e) {
     res.status(e.statusCode || 500).json({ error: e.message })
@@ -65,7 +65,7 @@ export const updateCompany = async (req, res) => {
       {
         new: true,
       }
-    ).select('-__v')
+    )
     if (!updatedCompany) {
       const error = new Error('wrong company id')
       error.statusCode = 422

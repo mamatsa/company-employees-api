@@ -48,7 +48,7 @@ export const addEmployee = async (req, res) => {
 export const getEmployee = async (req, res) => {
   const { id } = req.params
   try {
-    const employee = await Employee.findById(id).select('-__v')
+    const employee = await Employee.findById(id)
     if (!employee) {
       const error = new Error('wrong employee id')
       error.statusCode = 422
@@ -80,7 +80,7 @@ export const updateEmployee = async (req, res) => {
       {
         new: true,
       }
-    ).select('-__v')
+    )
     if (!updatedEmployee) {
       const error = new Error('wrong employee id')
       error.statusCode = 422
