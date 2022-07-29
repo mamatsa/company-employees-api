@@ -1,4 +1,4 @@
-const validate = (schema) => (req, res, next) => {
+const validateBody = (schema) => (req, res, next) => {
   const { error } = schema.validate(req.body)
   if (error) {
     res.status(422).json({ error: error.details[0].message })
@@ -7,4 +7,4 @@ const validate = (schema) => (req, res, next) => {
   }
 }
 
-export default validate
+export default validateBody

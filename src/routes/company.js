@@ -6,7 +6,11 @@ import {
   updateCompany,
   deleteCompany,
 } from '../controllers/index.js'
-import { authMiddleware, validate } from '../middlewares/index.js'
+import {
+  authMiddleware,
+  validateBody,
+  validateParams,
+} from '../middlewares/index.js'
 import { companySchemas } from '../schemas/index.js'
 
 const router = express.Router()
@@ -14,12 +18,21 @@ const router = express.Router()
 router
   .route('/companies')
   .get(authMiddleware, getCompanyList)
-  .post(authMiddleware, validate(companySchemas.createCompany), createCompany)
+  .post(
+    authMiddleware,
+    validateBody(companySchemas.createCompany),
+    createCompany
+  )
 
 router
   .route('/company/:id')
-  .get(authMiddleware, getCompany)
-  .put(authMiddleware, validate(companySchemas.updateCompany), updateCompany)
-  .delete(authMiddleware, deleteCompany)
+  .get(authMiddleware, validateParams, getCompany)
+  .put(
+    authMiddleware,
+    validateParams,
+    validateBody(companySchemas.updateCompany),
+    updateCompany
+  )
+  .delete(authMiddleware, validateParams, deleteCompany)
 
 export default router
