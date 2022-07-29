@@ -6,28 +6,36 @@ import { User } from '../models/index.js'
 // @route    POST /login
 // @access   Public
 export const login = async (req, res) => {
-  const { email, password } = req.body
+  try {
+    const { email, password } = req.body
 
-  // Find user using email
-  const user = await User.findOne({ email })
-
-  if (user) {
-    if (await bcrypt.compare(password, user.password)) {
-      // Generate JWT token
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: '30d',
-      })
-
-      res.json({
-        _id: user.id,
-        name: user.name,
-        email: user.email,
-        JWTToken: token,
-      })
-    } else {
-      res.status(400).json({ error: 'wrong email or password' })
+    // Find user using email
+    const user = await User.findOne({ email })
+    if (!user) {
+      const error = new Error('wrong email or password')
+      error.statusCode = 400
+      throw error
     }
-  } else {
-    res.status(400).json({ error: 'wrong email or password' })
+
+    // Check if password is valid
+    if (!(await bcrypt.compare(password, user.password))) {
+      const error = new Error('wrong email or password')
+      error.statusCode = 400
+      throw error
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '1d',
+    })
+
+    res.json({
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+      JWTToken: token,
+    })
+  } catch (e) {
+    res.status(e.statusCode || 500).json({ error: e.message })
   }
 }

@@ -1,15 +1,32 @@
-import { Employee } from '../models/index.js'
+import mongoose from 'mongoose'
+import { Employee, Company } from '../models/index.js'
 
 // @desc     Add employee
 // @route    POST /employee
 // @access   Private
 export const addEmployee = async (req, res) => {
   try {
-    if (await Employee.findOne({ personalID: req.body.personalID })) {
-      return res
-        .status(422)
-        .json({ error: 'employee with such personal id already exists' })
+    // check if valid mongoose id
+    if (!mongoose.Types.ObjectId.isValid(req.body.company)) {
+      const error = new Error('wrong company id format')
+      error.statusCode = 422
+      throw error
     }
+    // check if company exists
+    const company = await Company.findById(req.body.company)
+    if (!company) {
+      const error = new Error('wrong company id')
+      error.statusCode = 422
+      throw error
+    }
+
+    // check if personalID already exists
+    if (await Employee.findOne({ personalID: req.body.personalID })) {
+      const error = new Error('employee with such personal id already exists')
+      error.statusCode = 422
+      throw error
+    }
+
     const employee = await Employee.create({
       company: req.body.company,
       name: req.body.name,
@@ -18,10 +35,10 @@ export const addEmployee = async (req, res) => {
       birthDate: req.body.birthDate,
       personalID: req.body.personalID,
       jobPosition: req.body.jobPosition,
-    }).select('-__v')
-    return res.status(201).json(employee)
+    })
+    res.status(201).json(employee)
   } catch (e) {
-    return res.status(400).json({ error: 'wrong company id' })
+    res.status(e.statusCode || 500).json({ error: e.message })
   }
 }
 
@@ -33,11 +50,13 @@ export const getEmployee = async (req, res) => {
   try {
     const employee = await Employee.findById(id).select('-__v')
     if (!employee) {
-      throw new Error()
+      const error = new Error('wrong employee id')
+      error.statusCode = 422
+      throw error
     }
     res.status(200).json(employee)
   } catch (e) {
-    res.status(400).json({ error: 'wrong employee id' })
+    res.status(e.statusCode || 500).json({ error: e.message })
   }
 }
 
@@ -63,11 +82,13 @@ export const updateEmployee = async (req, res) => {
       }
     ).select('-__v')
     if (!updatedEmployee) {
-      throw new Error()
+      const error = new Error('wrong employee id')
+      error.statusCode = 422
+      throw error
     }
     res.status(200).json(updatedEmployee)
   } catch (e) {
-    res.status(400).json({ error: 'wrong employee id' })
+    res.status(e.statusCode || 500).json({ error: e.message })
   }
 }
 
@@ -79,10 +100,12 @@ export const deleteEmployee = async (req, res) => {
   try {
     const deletedEmployee = await Employee.findByIdAndDelete(id)
     if (!deletedEmployee) {
-      throw new Error()
+      const error = new Error('wrong employee id')
+      error.statusCode = 422
+      throw error
     }
     res.status(200).json({ id })
   } catch (e) {
-    res.status(400).json({ error: 'wrong employee id' })
+    res.status(e.statusCode || 500).json({ error: e.message })
   }
 }
