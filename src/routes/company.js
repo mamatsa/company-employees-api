@@ -15,14 +15,14 @@ import { companySchemas } from '../schemas/index.js'
 
 const router = express.Router()
 
-router
-  .route('/companies')
-  .get(authMiddleware, getCompanyList)
-  .post(
-    authMiddleware,
-    validateBody(companySchemas.createCompany),
-    createCompany
-  )
+router.get('companies', authMiddleware, getCompanyList)
+
+router.post(
+  '/company',
+  authMiddleware,
+  validateBody(companySchemas.createCompany),
+  createCompany
+)
 
 router
   .route('/company/:id')

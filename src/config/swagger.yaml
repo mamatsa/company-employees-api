@@ -85,6 +85,7 @@ paths:
                     - establishmentDate
         '401':
           description: Not authorized
+  /company:
     post:
       summary: Create company
       tags:

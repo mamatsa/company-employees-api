@@ -13,7 +13,7 @@ export const getCompanyList = async (_, res) => {
 }
 
 // @desc     Add a company
-// @route    POST /companies
+// @route    POST /company
 // @access   Private
 export const createCompany = async (req, res) => {
   try {
@@ -35,7 +35,7 @@ export const createCompany = async (req, res) => {
 }
 
 // @desc     Get a specific company
-// @route    GET /companies/:id
+// @route    GET /company/:id
 // @access   Private
 export const getCompany = async (req, res) => {
   try {
@@ -55,7 +55,7 @@ export const getCompany = async (req, res) => {
 }
 
 // @desc     Update company
-// @route    PUT /companies/:id
+// @route    PUT /company/:id
 // @access   Private
 export const updateCompany = async (req, res) => {
   try {
@@ -78,7 +78,7 @@ export const updateCompany = async (req, res) => {
 }
 
 // @desc     Delete company
-// @route    DELETE /companies/:id
+// @route    DELETE /company/:id
 // @access   Private
 export const deleteCompany = async (req, res) => {
   try {
