@@ -15,7 +15,7 @@ import { companySchemas } from '../schemas/index.js'
 
 const router = express.Router()
 
-router.get('companies', authMiddleware, getCompanyList)
+router.get('/companies', authMiddleware, getCompanyList)
 
 router.post(
   '/company',
