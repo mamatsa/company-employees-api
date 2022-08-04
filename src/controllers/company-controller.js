@@ -6,7 +6,14 @@ import { Company, Employee } from '../models/index.js'
 export const getCompanyList = async (_, res) => {
   try {
     const companies = await Company.find()
-    res.status(200).json(companies)
+    const companiesWithEmployees = await Promise.all(
+      companies.map(async (company) => {
+        const employeesInCompany = await Employee.find({ company: company._id })
+        const result = await { ...company._doc, employees: employeesInCompany }
+        return result
+      })
+    )
+    res.status(200).json(companiesWithEmployees)
   } catch (e) {
     res.status(500).json({ error: e.message })
   }
